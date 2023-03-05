@@ -2,6 +2,8 @@ import openai
 import requests
 from decouple import config
 
+from functions.utils import get_recent_messages
+
 
 # Retrieve Enviornment Variables
 openai.organization = config("OPEN_AI_ORG")
@@ -21,19 +23,16 @@ def convert_audio_to_text(audio_file):
 # Open AI - Chat GPT
 # Convert audio to text
 def get_chat_response(message_input):
+
+  messages = get_recent_messages(message_input)
+  user_message = {"role": "user", "content": message_input}
+  messages.append(user_message)
+  print(messages)
+
   try:
     response = openai.ChatCompletion.create(
-    model="gpt-3.5-turbo",
-    messages=[
-            {"role": "system", "content": " \
-             You are teaching me Spanish. My name is Shaun. \
-             Give me positive reinforcement and keep the conversation going. \
-             You can include the occasional humour\
-             "},
-            {"role": "user", "content": "How do I ask where the train station is?"},
-            {"role": "assistant", "content": "You can ask ¿Dónde está la estación de tren? which means Where is the train station?."},
-            {"role": "user", "content": message_input}
-        ]
+      model="gpt-3.5-turbo",
+      messages=messages
     )
     message_text = response["choices"][0]["message"]["content"]
     return message_text

@@ -7,6 +7,7 @@ import openai
 from functions.text_to_speech import convert_text_to_speech
 from functions.openai_requests import convert_audio_to_text, get_chat_response
 from functions.bucket_storage import upload_audio
+from functions.utils import store_messages
 
 ## Command:
 # uvicorn main:app --reload
@@ -100,6 +101,9 @@ async def post_audio(file: UploadFile = File(...)):
 
     # Get chat response
     chat_response = get_chat_response(message_decoded)
+
+    # Store messages
+    store_messages(message_decoded, chat_response)
 
     # Guard: Ensure output
     if not chat_response:
