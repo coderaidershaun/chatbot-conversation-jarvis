@@ -42,12 +42,6 @@ Upgrade PIP
 pip3 install --upgrade pip
 ```
 
-Upgrade PIP
-
-```shell
-pip3 install --upgrade pip
-```
-
 ### Install Python packages
 
 Install required Python packages
