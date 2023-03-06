@@ -7,30 +7,16 @@ def get_recent_messages(request_message):
 
   # Define the file name
   file_name = "stored_data.json"
-  learn_instruction = {"role": "system", "content": "You are a teacher, the user is called Shaun. "}
-  is_language = False
+  learn_instruction = {"role": "system", 
+                       "content": "You are a Chinese teacher your name is Rachel, the user is called Shaun. Keep responses under 30 words. Do not include emojis or Chinese writing in responses. "}
   messages = []
-  
-  # Add Language teaching element - Spanish
-  if "spanish" in request_message.lower():
-    is_language = True
-    learn_instruction["content"] = learn_instruction["content"] + "You are teaching me Spanish. "
-
-  # Add Language teaching element - Chinese
-  if "chinese" in request_message.lower():
-    is_language = True
-    learn_instruction["content"] = learn_instruction["content"] + "You are teaching me Chinese. "
-
-  # Add Sales Element
-  if not is_language:
-    learn_instruction["content"] = learn_instruction["content"] + "You really want to give a discount to your new Udemy course. "
 
   # Add Random Element
   x = random.uniform(0, 1)
-  if x < 0.3:
-    learn_instruction["content"] = learn_instruction["content"] + "Your response will have dry and sometimes sarcastic humour. "
+  if x < 0.2:
+    learn_instruction["content"] = learn_instruction["content"] + "Your response will have dry humour. "
   else:
-    learn_instruction["content"] = learn_instruction["content"] + "You will be encouraging. "
+    learn_instruction["content"] = learn_instruction["content"] + "Your response will recommend another word to learn. "
 
   # Append instruction to message
   messages.append(learn_instruction)
@@ -40,13 +26,13 @@ def get_recent_messages(request_message):
     with open(file_name) as user_file:
       data = json.load(user_file)
       
-      # Append last 3 rows of data
+      # Append last 5 rows of data
       if data:
-        if len(data) < 3:
+        if len(data) < 5:
           for item in data:
             messages.append(item)
         else:
-          for item in data[-3:]:
+          for item in data[-5:]:
             messages.append(item)
   except:
     pass
@@ -75,3 +61,12 @@ def store_messages(request_message, response_message):
   with open(file_name, "w") as f:
     json.dump(messages, f)
 
+
+# Save messages for retrieval later on
+def reset_messages():
+
+  # Define the file name
+  file_name = "stored_data.json"
+
+  # Write an empty file
+  open(file_name, "w")
