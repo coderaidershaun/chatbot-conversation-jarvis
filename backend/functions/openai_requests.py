@@ -1,5 +1,4 @@
 import openai
-import requests
 from decouple import config
 
 from functions.database import get_recent_messages
@@ -24,7 +23,7 @@ def convert_audio_to_text(audio_file):
 # Convert audio to text
 def get_chat_response(message_input):
 
-  messages = get_recent_messages(message_input)
+  messages = get_recent_messages()
   user_message = {"role": "user", "content": message_input}
   messages.append(user_message)
   print(messages)

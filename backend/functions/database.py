@@ -3,12 +3,14 @@ import json
 import random
 
 # Save messages for retrieval later on
-def get_recent_messages(request_message):
+def get_recent_messages():
 
   # Define the file name
   file_name = "stored_data.json"
   learn_instruction = {"role": "system", 
                        "content": "You are a Spanish teacher and your name is Rachel, the user is called Shaun. Keep responses under 20 words. "}
+  
+  # Initialize messages
   messages = []
 
   # Add Random Element
@@ -51,7 +53,7 @@ def store_messages(request_message, response_message):
   file_name = "stored_data.json"
 
   # Get recent messages
-  messages = get_recent_messages(request_message)[1:]
+  messages = get_recent_messages()[1:]
 
   # Add messages to data
   user_message = {"role": "user", "content": request_message}
